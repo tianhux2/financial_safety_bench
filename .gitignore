@@ -1,0 +1,28 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# FrontierFinance data and anything built from it (gated, not redistributable here)
+data/*.jsonl
+safety_bench/dataset/cases_full.jsonl
+
+# run outputs: results, trajectories, logs
+safety_bench/results/
+runs/
+logs/
+*.log
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# os and editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

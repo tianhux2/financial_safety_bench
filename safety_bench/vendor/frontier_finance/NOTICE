@@ -1,0 +1,30 @@
+FrontierFinance Benchmark Grader
+Copyright 2026 Samaya AI, Inc.
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+------------------------------------------------------------------------------
+
+This tool grades system responses against the FrontierFinance rubrics dataset,
+which is distributed separately and is NOT covered by this repository's license.
+
+  FrontierFinance dataset
+  Copyright 2026 Samaya AI, Inc.
+  Licensed under Creative Commons Attribution 4.0 International (CC-BY-4.0):
+      https://creativecommons.org/licenses/by/4.0/
+  Source: https://huggingface.co/datasets/samaya-ai/FrontierFinance
+
+Use of the dataset is subject to its CC-BY-4.0 terms, including attribution.
+
+------------------------------------------------------------------------------
+
+Modifications in this copy (Apache License 2.0, section 4(b)):
+
+  grading.py, prompts.py  imports rewritten as relative imports for vendoring.
+  judges.py               API keys may be read from a .env file in the working
+                          directory and are passed to the client explicitly;
+                          temperature is not set for reasoning models.
+  __init__.py             exports only the grading components used here.
+
+Only grading.py, judges.py, models.py and prompts.py are included. The
+FrontierFinance dataset is not included in this repository.

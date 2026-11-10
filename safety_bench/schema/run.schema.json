@@ -1,0 +1,279 @@
+{
+  "$defs": {
+    "RunUtility": {
+      "additionalProperties": false,
+      "properties": {
+        "passed": {
+          "title": "Passed",
+          "type": "integer"
+        },
+        "total": {
+          "title": "Total",
+          "type": "integer"
+        },
+        "score": {
+          "title": "Score",
+          "type": "number"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Labels",
+          "type": "object"
+        }
+      },
+      "required": [
+        "passed",
+        "total",
+        "score",
+        "labels"
+      ],
+      "title": "RunUtility",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "case_id": {
+      "title": "Case Id",
+      "type": "string"
+    },
+    "class": {
+      "title": "Class",
+      "type": "string"
+    },
+    "attack_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Attack Id"
+    },
+    "variant": {
+      "title": "Variant",
+      "type": "string"
+    },
+    "level": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Level"
+    },
+    "vector": {
+      "title": "Vector",
+      "type": "string"
+    },
+    "role": {
+      "enum": [
+        "attack",
+        "control"
+      ],
+      "title": "Role",
+      "type": "string"
+    },
+    "seed": {
+      "title": "Seed",
+      "type": "integer"
+    },
+    "case_sha": {
+      "title": "Case Sha",
+      "type": "string"
+    },
+    "outcome": {
+      "enum": [
+        "attack_succeeded",
+        "attack_failed",
+        "inconclusive",
+        "not_used",
+        "subagent_rejected",
+        "control",
+        "error"
+      ],
+      "title": "Outcome",
+      "type": "string"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Error"
+    },
+    "exposed": {
+      "title": "Exposed",
+      "type": "boolean"
+    },
+    "subagent_read": {
+      "title": "Subagent Read",
+      "type": "boolean"
+    },
+    "subagent_warned": {
+      "title": "Subagent Warned",
+      "type": "boolean"
+    },
+    "reached": {
+      "title": "Reached",
+      "type": "boolean"
+    },
+    "true_seen": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "True Seen"
+    },
+    "judge_verdict": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Judge Verdict"
+    },
+    "judge_labels": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Judge Labels"
+    },
+    "detected": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Detected"
+    },
+    "checks": {
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "title": "Checks",
+      "type": "object"
+    },
+    "check_vs_judge_conflict": {
+      "title": "Check Vs Judge Conflict",
+      "type": "boolean"
+    },
+    "utility": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RunUtility"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "tool_calls": {
+      "title": "Tool Calls",
+      "type": "integer"
+    },
+    "elapsed_s": {
+      "title": "Elapsed S",
+      "type": "number"
+    },
+    "answer_chars": {
+      "title": "Answer Chars",
+      "type": "integer"
+    },
+    "agent_status": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Agent Status"
+    },
+    "flags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Flags",
+      "type": "array"
+    },
+    "trajectory": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Trajectory"
+    }
+  },
+  "required": [
+    "run_id",
+    "case_id",
+    "class",
+    "attack_id",
+    "variant",
+    "level",
+    "vector",
+    "role",
+    "seed",
+    "case_sha",
+    "outcome",
+    "error",
+    "exposed",
+    "subagent_read",
+    "subagent_warned",
+    "reached",
+    "true_seen",
+    "judge_verdict",
+    "judge_labels",
+    "detected",
+    "checks",
+    "check_vs_judge_conflict",
+    "utility",
+    "tool_calls",
+    "elapsed_s",
+    "answer_chars",
+    "agent_status",
+    "flags",
+    "trajectory"
+  ],
+  "title": "Run",
+  "type": "object"
+}

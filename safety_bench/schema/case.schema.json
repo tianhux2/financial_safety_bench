@@ -1,0 +1,428 @@
+{
+  "$defs": {
+    "Check": {
+      "additionalProperties": false,
+      "description": "A deterministic check. With decides=true it sets the outcome; otherwise it cross-checks the judge.",
+      "properties": {
+        "type": {
+          "enum": [
+            "answer_token",
+            "confidential",
+            "confidential_detail",
+            "honeypot"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "tokens": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Tokens",
+          "type": "array"
+        },
+        "decides": {
+          "title": "Decides",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "tokens",
+        "decides"
+      ],
+      "title": "Check",
+      "type": "object"
+    },
+    "Delivery": {
+      "additionalProperties": false,
+      "description": "How the attack reaches the agent. A user-vector attack is in the prompt, so it has no rules.",
+      "properties": {
+        "vector": {
+          "enum": [
+            "none",
+            "user",
+            "search",
+            "page"
+          ],
+          "title": "Vector",
+          "type": "string"
+        },
+        "rules": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Rule"
+          },
+          "title": "Rules",
+          "type": "array"
+        }
+      },
+      "required": [
+        "vector"
+      ],
+      "title": "Delivery",
+      "type": "object"
+    },
+    "Judge": {
+      "additionalProperties": false,
+      "properties": {
+        "rubrics": {
+          "items": {
+            "$ref": "#/$defs/Rubric"
+          },
+          "title": "Rubrics",
+          "type": "array"
+        },
+        "success_rule": {
+          "enum": [
+            "harm_present",
+            "none"
+          ],
+          "title": "Success Rule",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rubrics",
+        "success_rule"
+      ],
+      "title": "Judge",
+      "type": "object"
+    },
+    "Reach": {
+      "additionalProperties": false,
+      "description": "How to tell the attack reached the main model. `always` for attacks written in the prompt.",
+      "properties": {
+        "type": {
+          "enum": [
+            "always",
+            "marker"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "markers": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Markers",
+          "type": "array"
+        },
+        "truth_markers": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Truth Markers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Reach",
+      "type": "object"
+    },
+    "Rubric": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "safe",
+            "harm",
+            "fact",
+            "detect"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "text"
+      ],
+      "title": "Rubric",
+      "type": "object"
+    },
+    "Rule": {
+      "additionalProperties": false,
+      "description": "One tool-output edit. Fields match finance_agent.adversary.InjectionRule.",
+      "properties": {
+        "tool": {
+          "enum": [
+            "web_search",
+            "parse_html_page"
+          ],
+          "title": "Tool",
+          "type": "string"
+        },
+        "primitive": {
+          "enum": [
+            "replace",
+            "append",
+            "serve"
+          ],
+          "title": "Primitive",
+          "type": "string"
+        },
+        "keywords": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Keywords",
+          "type": "array"
+        },
+        "aliases": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Aliases",
+          "type": "array"
+        },
+        "payload": {
+          "additionalProperties": true,
+          "title": "Payload",
+          "type": "object"
+        },
+        "max_applications": {
+          "default": 0,
+          "title": "Max Applications",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "tool",
+        "primitive",
+        "payload"
+      ],
+      "title": "Rule",
+      "type": "object"
+    },
+    "Scoring": {
+      "additionalProperties": false,
+      "properties": {
+        "judge": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Judge"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "checks": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Check"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "reach": {
+          "$ref": "#/$defs/Reach"
+        },
+        "utility": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Utility"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "judge",
+        "reach",
+        "utility"
+      ],
+      "title": "Scoring",
+      "type": "object"
+    },
+    "Utility": {
+      "additionalProperties": false,
+      "description": "What report quality is measured against.",
+      "properties": {
+        "type": {
+          "enum": [
+            "source_rubrics",
+            "case_rubrics"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "query_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Query Id"
+        },
+        "exclude_rubric_ids": {
+          "default": [],
+          "items": {
+            "type": "integer"
+          },
+          "title": "Exclude Rubric Ids",
+          "type": "array"
+        },
+        "rubrics_sha": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rubrics Sha"
+        },
+        "rubric_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Rubric Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "Utility",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "title": "Id",
+      "type": "string"
+    },
+    "class": {
+      "enum": [
+        "misinformation",
+        "premise",
+        "pressure",
+        "injection",
+        "privacy",
+        "control"
+      ],
+      "title": "Class",
+      "type": "string"
+    },
+    "attack_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Attack Id"
+    },
+    "role": {
+      "enum": [
+        "attack",
+        "control"
+      ],
+      "title": "Role",
+      "type": "string"
+    },
+    "variant": {
+      "title": "Variant",
+      "type": "string"
+    },
+    "level": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Level"
+    },
+    "entity": {
+      "title": "Entity",
+      "type": "string"
+    },
+    "as_of": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "title": "As Of",
+      "type": "string"
+    },
+    "prompt": {
+      "title": "Prompt",
+      "type": "string"
+    },
+    "base_prompt": {
+      "title": "Base Prompt",
+      "type": "string"
+    },
+    "control_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Control Id"
+    },
+    "delivery": {
+      "$ref": "#/$defs/Delivery"
+    },
+    "scoring": {
+      "$ref": "#/$defs/Scoring"
+    },
+    "provenance": {
+      "additionalProperties": true,
+      "title": "Provenance",
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "class",
+    "attack_id",
+    "role",
+    "variant",
+    "level",
+    "entity",
+    "as_of",
+    "prompt",
+    "base_prompt",
+    "control_id",
+    "delivery",
+    "scoring",
+    "provenance"
+  ],
+  "title": "Case",
+  "type": "object"
+}
